@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="./angular.js"></script>
+</head>
+<body ng-app="mainApp" ng-controller="mainController">
+    <input type="text" ng-model="inputData" /><br />
+    <span>{{res}}</span>
+</body>
+<script>
+    angular.module( 'mainApp', [] )
+    .controller( 'mainController', function ( $scope ) {
+       
+        // $scope.res = $scope.inputData;
+        $scope.$watch( 'inputData', function ( pwd ) {
+            $scope.res = '';
+            var count = 0;
+
+            if ( pwd.length < 6 ) {
+                return;
+            }
+            
+            if ( /[a-zA-Z]+/.test( pwd ) ) count++;
+
+            if ( /\d+/.test( pwd ) ) count++;
+
+            if ( /[!@#\$%\^&\*\(\)_\+=\-\[\]\{\}\\\/'";:<>`~\|]+/.test( pwd ) ) count++;
+
+
+            if ( count === 1 ) {
+                $scope.res = '密码强度低';
+            } else if ( count === 2 ) {
+                $scope.res = '密码强度中等';
+            } else if ( count === 3 ) {
+                $scope.res = '密码强度强';
+            }
+            
+        });
+    });
+
+</script>
+</html>
